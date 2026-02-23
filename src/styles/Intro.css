@@ -1,0 +1,222 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #0a0d0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: all;
+}
+
+.intro .bar-top,
+.intro .bar-bottom {
+  position: absolute;
+  left: 0; right: 0;
+  height: 13vh;
+  background: #0a0d0b;
+  z-index: 10;
+  transition: height 1.2s cubic-bezier(0.76,0,0.24,1);
+}
+.intro .bar-top { top: 0; }
+.intro .bar-bottom { bottom: 0; }
+.intro.bars-open .bar-top,
+.intro.bars-open .bar-bottom { height: 0; }
+
+.intro-reel {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 40%, rgba(72,130,134,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 60%, rgba(183,213,212,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(119,135,139,0.2) 0%, transparent 60%),
+    #0d1412;
+  animation: reelShift 6s ease-in-out forwards;
+  transform-origin: center;
+  overflow: hidden;
+}
+/* Video sits on top of the gradient fallback */
+.intro-video {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  animation: reelShift 6s ease-in-out forwards;
+}
+@keyframes reelShift {
+  0%   { transform: scale(1.08); filter: brightness(0.4) saturate(0.6); }
+  30%  { filter: brightness(0.7) saturate(0.8); }
+  60%  { transform: scale(1.02); filter: brightness(0.9) saturate(1.1); }
+  100% { transform: scale(1); filter: brightness(1) saturate(1); }
+}
+
+.intro-grain {
+  position: absolute;
+  inset: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.07;
+  animation: grainAnim 0.15s steps(2) infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+@keyframes grainAnim {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-3%, -4%); }
+  50%  { transform: translate(4%, 2%); }
+  75%  { transform: translate(-2%, 5%); }
+  100% { transform: translate(3%, -3%); }
+}
+
+.intro-scratch {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent 10%, rgba(183,213,212,0.4) 40%, transparent 90%);
+  left: 35%;
+  opacity: 0;
+  animation: scratchAnim 6s ease-in-out forwards;
+  z-index: 6;
+}
+@keyframes scratchAnim {
+  0%   { opacity: 0; left: 35%; }
+  10%  { opacity: 0.6; left: 36%; }
+  25%  { opacity: 0; left: 34%; }
+  40%  { opacity: 0.4; left: 65%; }
+  55%  { opacity: 0; left: 66%; }
+  100% { opacity: 0; }
+}
+
+.intro-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%);
+  z-index: 7;
+  pointer-events: none;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 9;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.intro-logomark {
+  width: 56px; height: 56px;
+  position: relative;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeInSlow 0.8s 0.8s forwards;
+}
+.intro-logomark svg { width: 100%; height: 100%; }
+
+.logo-circle {
+  stroke-dasharray: 157;
+  stroke-dashoffset: 157;
+  animation: drawCircle 1.4s 1s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.logo-h, .logo-v {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+}
+.logo-h { animation: drawLine 0.6s 2.2s ease forwards; }
+.logo-v { animation: drawLine 0.6s 2.4s ease forwards; }
+
+@keyframes drawCircle { to { stroke-dashoffset: 0; } }
+@keyframes drawLine   { to { stroke-dashoffset: 0; } }
+
+.intro-studio-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(64px, 12vw, 160px);
+  letter-spacing: 0.22em;
+  color: var(--off-white);
+  line-height: 1;
+  overflow: hidden;
+  display: flex;
+  gap: 0;
+}
+.intro-studio-name .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%);
+  animation: charReveal 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.intro-studio-name .char:nth-child(1) { animation-delay: 1.8s; }
+.intro-studio-name .char:nth-child(2) { animation-delay: 1.95s; }
+.intro-studio-name .char:nth-child(3) { animation-delay: 2.1s; }
+
+@keyframes charReveal {
+  from { opacity: 0; transform: translateY(80%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.intro-tagline {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(10px, 1.2vw, 13px);
+  letter-spacing: 0.4em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeInSlow 1s 3s forwards;
+}
+
+.intro-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: rgba(183,213,212,0.4);
+  text-transform: uppercase;
+  margin-top: 10px;
+  opacity: 0;
+  animation: fadeInSlow 1s 3.4s forwards;
+}
+
+.intro-progress {
+  position: absolute;
+  bottom: 14vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  animation: fadeInSlow 0.6s 2s forwards;
+}
+.progress-track {
+  width: 120px;
+  height: 1px;
+  background: rgba(119,135,139,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.progress-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  background: var(--teal);
+  width: 0%;
+  animation: progressFill 3.8s 2s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+@keyframes progressFill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+.progress-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(119,135,139,0.5);
+  text-transform: uppercase;
+}
+
+.intro.exit .bar-top  { height: 55%; transition: height 1s cubic-bezier(0.76,0,0.24,1); }
+.intro.exit .bar-bottom { height: 55%; transition: height 1s cubic-bezier(0.76,0,0.24,1); }
+.intro.exit .intro-content { opacity: 0; transition: opacity 0.4s; }
+.intro.gone { display: none; }
