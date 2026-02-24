@@ -3,20 +3,17 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 28px 60px;
-  transition: padding 0.3s, background 0.3s, backdrop-filter 0.3s;
-  /* Always has a subtle top gradient so navbar is readable over any video */
-  background: linear-gradient(to bottom,
-      rgba(33, 41, 34, 0.6) 0%,
-      transparent 100%);
+  transition: padding 0.3s, background 0.3s;
+  background: linear-gradient(to bottom, rgba(33, 41, 34, 0.65) 0%, transparent 100%);
 }
 
 .nav.scrolled {
-  background: rgba(33, 41, 34, 0.92);
+  background: rgba(33, 41, 34, 0.95);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   padding: 18px 60px;
@@ -31,9 +28,11 @@
   text-decoration: none;
   opacity: 0;
   animation: fadeDown 0.8s 0.2s forwards;
+  position: relative;
+  z-index: 1001;
 }
 
-/* Nav links */
+/* Desktop links */
 .nav-links {
   display: flex;
   gap: 40px;
@@ -44,26 +43,31 @@
 
 .nav-links a {
   color: var(--off-white);
-  /* brighter than before */
   text-decoration: none;
   font-size: 12px;
   font-weight: 600;
-  /* bolder */
   letter-spacing: 0.12em;
   text-transform: uppercase;
   transition: color 0.25s;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-  /* readable over video */
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
 }
 
 .nav-links a:hover {
   color: var(--teal);
 }
 
-/* CTA button */
-.nav-cta {
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
   opacity: 0;
   animation: fadeDown 0.8s 0.5s forwards;
+  position: relative;
+  z-index: 1001;
+}
+
+.nav-cta {
+  display: block;
 }
 
 .btn-outline {
@@ -72,7 +76,11 @@
   font-weight: 600;
   font-size: 11px;
   letter-spacing: 0.12em;
-  text-shadow: none;
+  padding: 10px 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.25s, color 0.25s;
+  display: inline-block;
 }
 
 .btn-outline:hover {
@@ -80,7 +88,53 @@
   color: var(--charcoal);
 }
 
+/* Burger — hidden on desktop */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+  z-index: 1001;
+}
+
+.burger span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--off-white);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s;
+  transform-origin: center;
+}
+
+.burger.open span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.burger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.burger.open span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* Mobile menu — hidden on desktop */
+.mobile-menu {
+  display: none;
+}
+
+/* ════════════════════════════════
+   MOBILE — 900px and below
+════════════════════════════════ */
 @media (max-width: 900px) {
+
   .nav {
     padding: 20px 24px;
   }
@@ -89,7 +143,77 @@
     padding: 14px 24px;
   }
 
+  /* Hide desktop elements */
   .nav-links {
     display: none;
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
+  /* Show burger */
+  .burger {
+    display: flex;
+  }
+
+  /* Fullscreen mobile menu */
+  .mobile-menu {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: var(--charcoal);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 100px 36px 60px;
+    transform: translateX(100%);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mobile-menu.active {
+    transform: translateX(0);
+  }
+
+  .mobile-links {
+    list-style: none;
+    width: 100%;
+    margin-bottom: 48px;
+    padding: 0;
+  }
+
+  .mobile-links li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+
+  .mobile-links a {
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 12vw, 68px);
+    color: var(--off-white);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    padding: 14px 0;
+    transition: color 0.25s, padding-left 0.25s;
+  }
+
+  .mobile-links a:hover,
+  .mobile-links a:active {
+    color: var(--teal);
+    padding-left: 10px;
+  }
+
+  .mobile-cta {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 14px 28px;
+    background: var(--teal);
+    color: var(--off-white);
+    text-decoration: none;
+    display: inline-block;
   }
 }
