@@ -101,6 +101,7 @@
   background: linear-gradient(135deg, var(--teal) 0%, var(--charcoal) 100%);
   opacity: 0.7;
   transition: opacity 0.4s;
+  z-index: 1;
 }
 
 .about-img:hover::before {
@@ -116,6 +117,17 @@
   letter-spacing: 0.15em;
   color: var(--lightblue);
   text-transform: uppercase;
+  z-index: 2;
+}
+
+/* About section video panels */
+.about-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 /* ── STATS ── */
@@ -358,61 +370,267 @@
   transform: translateY(0);
 }
 
+/* Work card hover video */
+.work-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+}
+
+.work-card:hover .work-video {
+  opacity: 1;
+}
+
+.work-card:hover .work-bg {
+  opacity: 0;
+}
+
+/* ── SHOWREEL ── */
 /* ── SHOWREEL ── */
 .reel-section {
-  padding: 0 60px 120px;
-  text-align: center;
+  padding: 80px 60px;
+  border-top: 1px solid rgba(119, 135, 139, 0.15);
+}
+
+/* Header */
+.reel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+
+.reel-header-left {}
+
+.reel-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.reel-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 8px;
 }
 
 .reel-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(36px, 5vw, 72px);
-  color: var(--off-white);
-  margin-bottom: 40px;
+  font-size: clamp(36px, 4vw, 64px);
   letter-spacing: 0.05em;
+  color: var(--off-white);
+  line-height: 1;
+  margin-bottom: 0;
 }
 
 .reel-title span {
   color: var(--teal);
 }
 
-.reel-wrapper {
-  position: relative;
-  aspect-ratio: 16/9;
-  background: #111614;
-  border: 1px solid rgba(72, 130, 134, 0.2);
-  overflow: hidden;
-  cursor: none;
+/* Arrow buttons */
+.reel-arrows {
+  display: flex;
+  gap: 8px;
 }
 
-.reel-inner {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(72, 130, 134, 0.2) 0%, rgba(33, 41, 34, 0.8) 60%, rgba(183, 213, 212, 0.1) 100%);
+.reel-arrow {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(119, 135, 139, 0.25);
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--slate);
+  background: none;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s;
 }
 
-.play-btn {
-  width: 80px;
-  height: 80px;
-  border: 1.5px solid var(--off-white);
+.reel-arrow:hover {
+  color: var(--teal);
+  border-color: var(--teal);
+}
+
+/* Track */
+.reel-track-wrap {
+  overflow: hidden;
+}
+
+.reel-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.reel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card — 4 visible on desktop */
+.reel-card {
+  flex: 0 0 calc(25% - 9px);
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+.reel-thumb {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #111614;
+  cursor: pointer;
+}
+
+/* Placeholder */
+.reel-thumb-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg,
+      rgba(72, 130, 134, 0.15) 0%,
+      #1a2220 55%,
+      rgba(72, 130, 134, 0.07) 100%);
+  animation: reelPulse 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes reelPulse {
+  from {
+    opacity: 0.6;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Play overlay */
+.reel-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.reel-play-btn {
+  width: 56px;
+  height: 56px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s, border-color 0.3s;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  transition: transform 0.3s, border-color 0.3s, background 0.3s;
 }
 
-.reel-wrapper:hover .play-btn {
+.reel-card:hover .reel-play-btn {
   transform: scale(1.1);
   border-color: var(--teal);
+  background: rgba(72, 130, 134, 0.25);
 }
 
-.play-btn svg {
-  fill: var(--off-white);
-  margin-left: 5px;
+.reel-play-btn svg {
+  margin-left: 3px;
+}
+
+/* Caption bar */
+.reel-caption-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 40px 14px 14px;
+  background: linear-gradient(to top, rgba(10, 14, 12, 0.88) 0%, transparent 100%);
+}
+
+.reel-caption-bar span {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  line-height: 1.55;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* Tag badge */
+.reel-card-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: rgba(10, 14, 12, 0.6);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(72, 130, 134, 0.3);
+  padding: 4px 8px;
+  border-radius: 2px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .reel-card {
+    flex: 0 0 calc(33.333% - 8px);
+  }
+}
+
+@media (max-width: 900px) {
+  .reel-section {
+    padding: 60px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .reel-section {
+    padding: 60px 20px;
+  }
+
+  .reel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  .reel-header-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  /* ~1.2 cards visible so user knows it scrolls */
+  .reel-card {
+    flex: 0 0 72vw;
+    max-width: 280px;
+  }
+
+  .reel-play-btn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reel-card {
+    flex: 0 0 78vw;
+  }
 }
 
 /* ── TEAM ── */
@@ -474,6 +692,7 @@
   left: 0;
   right: 0;
   padding: 24px;
+  z-index: 3;
 }
 
 .team-role {
@@ -490,6 +709,26 @@
   font-size: 24px;
   letter-spacing: 0.05em;
   color: var(--off-white);
+}
+
+/* Team hover video */
+.team-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+}
+
+.team-card:hover .team-video {
+  opacity: 1;
+}
+
+.team-card:hover .team-img {
+  opacity: 0;
 }
 
 /* ── CONTACT ── */
@@ -650,7 +889,18 @@
   opacity: 0.6;
 }
 
-/* ── RESPONSIVE ── */
+@media (hover: none),
+(pointer: coarse) {
+
+  .cursor,
+  .cursor-ring {
+    display: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — 900px
+══════════════════════════════════════════ */
 @media (max-width: 900px) {
   .about-section {
     padding: 80px 24px;
@@ -715,77 +965,9 @@
   }
 }
 
-/* ═══════════════════════════════════════════
-   VIDEO STYLES
-═══════════════════════════════════════════ */
-
-/* Work card hover video */
-.work-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: 1;
-}
-
-.work-card:hover .work-video {
-  opacity: 1;
-}
-
-.work-card:hover .work-bg {
-  opacity: 0;
-}
-
-/* About section video panels */
-.about-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-
-/* Keep the gradient overlay above video */
-.about-img::before {
-  z-index: 1;
-}
-
-.about-img-label {
-  z-index: 2;
-}
-
-/* Team hover video */
-.team-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: 1;
-}
-
-.team-card:hover .team-video {
-  opacity: 1;
-}
-
-.team-card:hover .team-img {
-  opacity: 0;
-}
-
-/* Keep team info above video */
-.team-info {
-  z-index: 3;
-}
-
-/* ═══════════════════════════════════════════
-   FULL MOBILE POLISH — 768px and below
-═══════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   RESPONSIVE — 768px
+══════════════════════════════════════════ */
 @media (max-width: 768px) {
 
   /* Nav */
@@ -923,7 +1105,6 @@
     grid-column: span 1;
   }
 
-  /* Always show tag on mobile (no hover) */
   .work-tag {
     opacity: 1;
     transform: none;
@@ -963,12 +1144,9 @@
     margin-top: 32px;
   }
 
-  /* Show team info always on mobile */
   .team-video {
     opacity: 0 !important;
   }
-
-  /* disable hover video on touch */
 
   /* Contact */
   .contact-section {
@@ -1011,7 +1189,9 @@
   }
 }
 
-/* ── Tablet: 769px–1024px ── */
+/* ══════════════════════════════════════════
+   RESPONSIVE — Tablet 769px–1024px
+══════════════════════════════════════════ */
 @media (min-width: 769px) and (max-width: 1024px) {
   .nav {
     padding: 24px 36px;
