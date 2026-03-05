@@ -120,7 +120,6 @@
   z-index: 2;
 }
 
-/* About section video panels */
 .about-video {
   position: absolute;
   inset: 0;
@@ -179,7 +178,7 @@
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: rgba(119, 135, 139, 0.15);
 }
@@ -370,7 +369,6 @@
   transform: translateY(0);
 }
 
-/* Work card hover video */
 .work-video {
   position: absolute;
   inset: 0;
@@ -391,18 +389,39 @@
 }
 
 /* ── SHOWREEL ── */
-/* ── SHOWREEL ── */
+
+/*
+  The section has extra height = width of all cards beyond the viewport.
+  That extra height is consumed by vertical scroll, which we intercept
+  to drive a translateX on the track. Once consumed, page scrolls normally.
+*/
 .reel-section {
-  padding: 80px 60px;
+  /* tall enough to hold the horizontal travel distance;
+     JS could set this dynamically, but 100vh + 2800px covers 10 cards comfortably */
+  height: calc(100vh + 2800px);
   border-top: 1px solid rgba(119, 135, 139, 0.15);
+  position: relative;
 }
 
-/* Header */
+/* Sticky container sticks at top while parent scrolls */
+.reel-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 60px;
+  background: var(--charcoal);
+}
+
 .reel-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 40px;
+  flex-shrink: 0;
 }
 
 .reel-header-left {}
@@ -411,6 +430,14 @@
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.reel-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--slate);
+  text-transform: uppercase;
 }
 
 .reel-eyebrow {
@@ -435,54 +462,32 @@
   color: var(--teal);
 }
 
-/* Arrow buttons */
-.reel-arrows {
-  display: flex;
-  gap: 8px;
-}
-
-.reel-arrow {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(119, 135, 139, 0.25);
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--slate);
-  background: none;
-  cursor: pointer;
-  transition: color 0.25s, border-color 0.25s;
-}
-
-.reel-arrow:hover {
-  color: var(--teal);
-  border-color: var(--teal);
-}
-
-/* Track */
+/* Clips cards — no scrollbar visible */
 .reel-track-wrap {
   overflow: hidden;
+  flex-shrink: 0;
 }
 
+/* The moving row */
 .reel-track {
   display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  gap: 20px;
+  will-change: transform;
+  transition: transform 0.05s linear;
 }
 
-.reel-track::-webkit-scrollbar {
-  display: none;
-}
-
-/* Card — 4 visible on desktop */
+/* Each card: 9:16 portrait */
 .reel-card {
-  flex: 0 0 calc(25% - 9px);
-  scroll-snap-align: start;
+  flex: 0 0 220px;
   min-width: 0;
+}
+
+.reel-index {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--slate);
+  margin-bottom: 10px;
 }
 
 .reel-thumb {
@@ -494,7 +499,6 @@
   cursor: pointer;
 }
 
-/* Placeholder */
 .reel-thumb-placeholder {
   position: absolute;
   inset: 0;
@@ -515,7 +519,6 @@
   }
 }
 
-/* Play overlay */
 .reel-play-overlay {
   position: absolute;
   inset: 0;
@@ -548,7 +551,6 @@
   margin-left: 3px;
 }
 
-/* Caption bar */
 .reel-caption-bar {
   position: absolute;
   bottom: 0;
@@ -567,7 +569,6 @@
   color: rgba(255, 255, 255, 0.88);
 }
 
-/* Tag badge */
 .reel-card-tag {
   position: absolute;
   top: 12px;
@@ -583,54 +584,6 @@
   border: 1px solid rgba(72, 130, 134, 0.3);
   padding: 4px 8px;
   border-radius: 2px;
-}
-
-/* ── Responsive ── */
-@media (max-width: 1024px) {
-  .reel-card {
-    flex: 0 0 calc(33.333% - 8px);
-  }
-}
-
-@media (max-width: 900px) {
-  .reel-section {
-    padding: 60px 24px;
-  }
-}
-
-@media (max-width: 768px) {
-  .reel-section {
-    padding: 60px 20px;
-  }
-
-  .reel-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 28px;
-  }
-
-  .reel-header-right {
-    width: 100%;
-    justify-content: flex-end;
-  }
-
-  /* ~1.2 cards visible so user knows it scrolls */
-  .reel-card {
-    flex: 0 0 72vw;
-    max-width: 280px;
-  }
-
-  .reel-play-btn {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-@media (max-width: 480px) {
-  .reel-card {
-    flex: 0 0 78vw;
-  }
 }
 
 /* ── TEAM ── */
@@ -711,7 +664,6 @@
   color: var(--off-white);
 }
 
-/* Team hover video */
 .team-video {
   position: absolute;
   inset: 0;
@@ -899,6 +851,71 @@
 }
 
 /* ══════════════════════════════════════════
+   RESPONSIVE — Tablet 769px–1024px
+══════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .nav {
+    padding: 24px 36px;
+  }
+
+  .hero {
+    padding: 0 36px 60px;
+  }
+
+  .about-section {
+    padding: 80px 36px;
+  }
+
+  .about-grid {
+    gap: 48px;
+  }
+
+  .about-images {
+    height: 400px;
+  }
+
+  .services-section {
+    padding: 80px 36px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .work-section {
+    padding: 80px 36px;
+  }
+
+  .team-section {
+    padding: 80px 36px;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-section {
+    padding: 60px 36px;
+  }
+
+  .contact-section {
+    padding: 80px 36px;
+  }
+
+  .reel-sticky {
+    padding: 0 36px;
+  }
+
+  .reel-card {
+    flex: 0 0 200px;
+  }
+
+  .footer {
+    padding: 32px 36px;
+  }
+}
+
+/* ══════════════════════════════════════════
    RESPONSIVE — 900px
 ══════════════════════════════════════════ */
 @media (max-width: 900px) {
@@ -920,7 +937,7 @@
   }
 
   .services-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .team-grid {
@@ -940,8 +957,8 @@
     grid-column: span 12;
   }
 
-  .reel-section {
-    padding: 0 24px 80px;
+  .reel-sticky {
+    padding: 0 24px;
   }
 
   .team-section {
@@ -966,7 +983,7 @@
 }
 
 /* ══════════════════════════════════════════
-   RESPONSIVE — 768px
+   RESPONSIVE — 768px (Mobile)
 ══════════════════════════════════════════ */
 @media (max-width: 768px) {
 
@@ -1074,15 +1091,15 @@
   }
 
   .services-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .service-card {
-    padding: 36px 24px;
+    padding: 28px 20px;
   }
 
   .service-card h3 {
-    font-size: 28px;
+    font-size: 24px;
   }
 
   /* Work */
@@ -1116,17 +1133,20 @@
 
   /* Showreel */
   .reel-section {
-    padding: 0 20px 60px;
+    height: calc(100vh + 1800px);
   }
 
-  .reel-title {
-    font-size: clamp(28px, 9vw, 48px);
-    margin-bottom: 24px;
+  .reel-sticky {
+    padding: 0 20px;
   }
 
-  .play-btn {
-    width: 60px;
-    height: 60px;
+  .reel-card {
+    flex: 0 0 160px;
+  }
+
+  .reel-play-btn {
+    width: 44px;
+    height: 44px;
   }
 
   /* Team */
@@ -1190,62 +1210,10 @@
 }
 
 /* ══════════════════════════════════════════
-   RESPONSIVE — Tablet 769px–1024px
+   RESPONSIVE — 480px (Small Mobile)
 ══════════════════════════════════════════ */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .nav {
-    padding: 24px 36px;
-  }
-
-  .hero {
-    padding: 0 36px 60px;
-  }
-
-  .about-section {
-    padding: 80px 36px;
-  }
-
-  .about-grid {
-    gap: 48px;
-  }
-
-  .about-images {
-    height: 400px;
-  }
-
-  .services-section {
-    padding: 80px 36px;
-  }
-
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .work-section {
-    padding: 80px 36px;
-  }
-
-  .team-section {
-    padding: 80px 36px;
-  }
-
-  .team-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .stats-section {
-    padding: 60px 36px;
-  }
-
-  .contact-section {
-    padding: 80px 36px;
-  }
-
-  .reel-section {
-    padding: 0 36px 80px;
-  }
-
-  .footer {
-    padding: 32px 36px;
+@media (max-width: 480px) {
+  .reel-card {
+    flex: 0 0 78vw;
   }
 }
