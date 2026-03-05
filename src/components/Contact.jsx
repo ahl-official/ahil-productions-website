@@ -16,9 +16,8 @@ export default function Contact() {
           Start a Conversation
         </a>
         <div className="contact-social">
-          <a href="#">Instagram</a>
-          <a href="#">Vimeo</a>
-          <a href="#">LinkedIn</a>
+          <a href="#" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://wa.me/" target="_blank" rel="noopener noreferrer">WhatsApp</a>
         </div>
       </div>
     </section>

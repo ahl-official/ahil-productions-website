@@ -2,39 +2,22 @@ import { useState } from 'react';
 
 const services = [
   {
-    id: 'motion',
-    label: 'Motion Design',
-    num: '01',
-    headline: 'Animation\nWith Soul.',
-    placeholder: 'MOTION\nDESIGN',
-  },
-  {
     id: 'podcast',
     label: 'Podcast Shoots',
-    num: '02',
+    num: '01',
     headline: 'We Come\nTo You.',
-    placeholder: 'PODCAST\nSHOOTS',
   },
   {
     id: 'photo',
     label: 'Photography',
-    num: '03',
+    num: '02',
     headline: 'A Still\nThat Speaks.',
-    placeholder: 'PHOTO\nGRAPHY',
   },
   {
-    id: 'post',
-    label: 'Post Production',
-    num: '04',
+    id: 'video',
+    label: 'Videography',
+    num: '03',
     headline: 'Raw Footage\nBecome Cinema.',
-    placeholder: 'POST\nPROD.',
-  },
-  {
-    id: 'performance',
-    label: 'Performance Content',
-    num: '05',
-    headline: 'Built For\nMedia Spend.',
-    placeholder: 'PERFORM\nCONTENT',
   },
 ];
 
@@ -105,7 +88,6 @@ export default function Services() {
               whiteSpace: 'nowrap',
               cursor: 'pointer',
               userSelect: 'none',
-              textDecoration: 'none',
               display: 'inline-block',
             }}
           >
